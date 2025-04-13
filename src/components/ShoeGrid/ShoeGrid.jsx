@@ -29,7 +29,7 @@ const Wrapper = styled.div`
 const ShoeWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  flex: 1;
+  flex: 1; /** to grow/ shrink the card size to fit the extra spaces when window resize */
   flex-basis: 250px;
 `;
 
