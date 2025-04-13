@@ -30,20 +30,31 @@ const ShoeCard = ({
     : isNewShoe(releaseDate)
       ? 'new-release'
       : 'default'
-
+  const priceColor = variant === 'on-sale' ? COLORS.gray[500] : 'inherit';
+  const pricedeco = variant === 'on-sale' ? 'line-through' : 'undefined';
   return (
     <Link href={`/shoe/${slug}`}>
       <Wrapper>
         <ImageWrapper>
           <Image alt="" src={imageSrc} />
+          {variant === 'on-sale' && <SaleTag>Sale</SaleTag>}
+          {variant === 'new-release' && <ReleaseTag>Just Released!</ReleaseTag>}
         </ImageWrapper>
         <Spacer size={12} />
         <Row>
           <Name>{name}</Name>
-          <Price>{formatPrice(price)}</Price>
+          <Price
+            style={{
+              '--priceColor': priceColor,
+              '--pricedeco': pricedeco,
+            }}
+          >
+            {formatPrice(price)}
+          </Price>
         </Row>
         <Row>
           <ColorInfo>{pluralize('Color', numOfColors)}</ColorInfo>
+          {salePrice && <SalePrice>{formatPrice(salePrice)}</SalePrice>}
         </Row>
       </Wrapper>
     </Link>
@@ -64,6 +75,25 @@ const ImageWrapper = styled.div`
   max-width: 340px;
 `;
 
+const Tag = styled.div`
+  position: absolute;
+  top: 12px;
+  right: -6px;
+  color: white;
+  font-weight: 700;
+  padding: ${8 / 16}em;
+  font-size: 14px;
+  border-radius: 2px;
+`;
+
+const SaleTag = styled(Tag)`
+  background: ${COLORS.primary};
+`;
+
+const ReleaseTag = styled(Tag)`
+  background: ${COLORS.secondary};
+`;
+
 const Image = styled.img`
   width: 100%;
 `;
@@ -79,7 +109,10 @@ const Name = styled.h3`
   color: ${COLORS.gray[900]};
 `;
 
-const Price = styled.span``;
+const Price = styled.span`
+  color: var(--priceColor);
+  text-decoration: var(--pricedeco);
+`;
 
 const ColorInfo = styled.p`
   color: ${COLORS.gray[700]};
